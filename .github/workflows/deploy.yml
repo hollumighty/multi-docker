@@ -13,15 +13,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: docker build -t hollumighty/fibapp-client ./client
-      - run: docker build -t hollumighty/fibApp-nginx ./nginx
-      - run: docker build -t hollumighty/fibApp-server ./server
-      - run: docker build -t hollumighty/fibApp-worker ./worker
+      - run: docker build -t hollumighty/fibapp-nginx ./nginx
+      - run: docker build -t hollumighty/fibapp-server ./server
+      - run: docker build -t hollumighty/fibapp-worker ./worker
       - run: echo $DOCKER_PASSWORD | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin 
  
-      - run: docker push hollumighty/fibApp-client
-      - run: docker push hollumighty/fibApp-nginx
-      - run: docker push hollumighty/fibApp-server
-      - run: docker push hollumighty/fibApp-worker
+      - run: docker push hollumighty/fibapp-client
+      - run: docker push hollumighty/fibapp-nginx
+      - run: docker push hollumighty/fibapp-server
+      - run: docker push hollumighty/fibapp-worker
  
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
