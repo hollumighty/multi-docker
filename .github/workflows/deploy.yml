@@ -9,15 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     env:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKER_ID: ${{ secrets.DOCKER_USERNAME }}
     steps:
       - uses: actions/checkout@v3
-      - run: echo $DOCKER_PASSWORD | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin 
       - run: docker build -t hollumighty/fibApp-client ./client
       - run: docker build -t hollumighty/fibApp-nginx ./nginx
       - run: docker build -t hollumighty/fibApp-server ./server
       - run: docker build -t hollumighty/fibApp-worker ./worker
+      - run: echo $DOCKER_PASSWORD | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin 
  
-      - run: docker push hollumighty/frontreal
+      - run: docker push hollumighty/fibApp-client
+      - run: docker push hollumighty/fibApp-nginx
+      - run: docker push hollumighty/fibApp-server
+      - run: docker push hollumighty/fibApp-worker
  
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
