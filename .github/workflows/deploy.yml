@@ -13,11 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: docker build -t hollumighty/fibapp-client ./client
+      - run: docker build -t hollumighty/fibapp-nginx ./nginx
       - run: docker build -t hollumighty/fibapp-server ./server
       - run: docker build -t hollumighty/fibapp-worker ./worker
       - run: echo $DOCKER_PASSWORD | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin 
  
       - run: docker push hollumighty/fibapp-client
+      - run: docker push hollumighty/fibapp-nginx
       - run: docker push hollumighty/fibapp-server
       - run: docker push hollumighty/fibapp-worker
  
@@ -29,9 +31,10 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          application_name: DockerReact-app
-          environment_name: DockerReact-app-env
-          existing_bucket_name: elasticbeanstalk-eu-north-1-111753924075
-          region: eu-north-1
+          application_name: Multi-docker
+          environment_name: Multi-docker-env
+          bucket_name: elasticbeanstalk-us-east-2-111753924075
+          bucket_path: multi-docker
+          region: us-east-2
           version_label: ${{ github.sha }}
           deployment_package: deploy.zip
